@@ -1,2 +1,2 @@
 # Roots
-A video game about ascending from the depths to save a bloom.
+A platformer game about ascending from the depths to save a bloom.
