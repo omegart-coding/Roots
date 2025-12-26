@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo4f4a74ryu2g"]
+
+[ext_resource type="Script" uid="uid://b144lmoo18ua6" path="res://scripts/mainmenu.gd" id="1_gjbar"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gjbar")
+
+[node name="Container" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -139.0
+offset_top = -50.5
+offset_right = 139.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainButtons" type="VBoxContainer" parent="Container"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Play" type="Button" parent="Container/MainButtons"]
+layout_mode = 2
+text = "Play"
+
+[node name="Settings" type="Button" parent="Container/MainButtons"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Exit" type="Button" parent="Container/MainButtons"]
+layout_mode = 2
+text = "Exit"
+
+[node name="SettingsButtons" type="VBoxContainer" parent="Container"]
+visible = false
+layout_mode = 2
+
+[node name="Fullscreen" type="CheckBox" parent="Container/SettingsButtons"]
+layout_mode = 2
+button_pressed = true
+action_mode = 0
+text = "Fullscreen"
+
+[node name="Back" type="Button" parent="Container/SettingsButtons"]
+layout_mode = 2
+text = "Back"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -575.5
+offset_top = -323.0
+offset_right = 575.5
+offset_bottom = 323.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.616517, 1, 0.531988, 1)
+
+[connection signal="pressed" from="Container/MainButtons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Container/MainButtons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Container/MainButtons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="toggled" from="Container/SettingsButtons/Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Container/SettingsButtons/Back" to="." method="_on_back_pressed"]
