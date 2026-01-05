@@ -26,6 +26,7 @@ theme_override_constants/separation = 10
 [node name="Play" type="Button" parent="Container/MainButtons"]
 layout_mode = 2
 focus_next = NodePath("../Exit")
+toggle_mode = true
 text = "Play"
 
 [node name="Exit" type="Button" parent="Container/MainButtons"]

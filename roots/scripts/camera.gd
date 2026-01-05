@@ -1,9 +1,11 @@
 extends Camera2D
 
-var player: Node2D
+var focus: Node2D
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
+	focus = get_parent()
+
 
 func _process(delta: float) -> void:
-	position = player.position
+	position.x = (focus.position.x)
+	position.y = focus.position.y - 50

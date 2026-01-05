@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cewvm5gl3srsj"]
+
+[ext_resource type="Script" uid="uid://cho5cq31uesg1" path="res://scripts/sprout_script.gd" id="1_oq5o4"]
+[ext_resource type="Texture2D" uid="uid://cm31sod8btben" path="res://icon.svg" id="1_ul3pg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oq5o4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rjui5"]
+radius = 24.6982
+
+[node name="Sprout" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 2
+physics_material_override = SubResource("PhysicsMaterial_oq5o4")
+script = ExtResource("1_oq5o4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.390625, 0.390625)
+texture = ExtResource("1_ul3pg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rjui5")

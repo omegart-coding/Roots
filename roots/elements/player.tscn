@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b06lj6f0wstpg"]
+[gd_scene load_steps=8 format=3 uid="uid://b06lj6f0wstpg"]
 
 [ext_resource type="Texture2D" uid="uid://cm31sod8btben" path="res://icon.svg" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c8erfcktmg2jo" path="res://scripts/player_behavior.gd" id="1_sf2tj"]
+[ext_resource type="Script" uid="uid://bjvyxcrj4pv66" path="res://scripts/grabdetect.gd" id="3_veuqq"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
 animations = [{
@@ -17,6 +18,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i3pqv"]
 size = Vector2(126, 124)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_sf2tj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_veuqq"]
+radius = 32.7567
+
 [node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_sf2tj")
 
@@ -25,3 +31,19 @@ sprite_frames = SubResource("SpriteFrames_onrkg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_i3pqv")
+
+[node name="grabdetect" type="Area2D" parent="."]
+scale = Vector2(50, 50)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("3_veuqq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="grabdetect"]
+shape = SubResource("CircleShape2D_sf2tj")
+
+[node name="grabcollision" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="grabcollision"]
+shape = SubResource("CircleShape2D_veuqq")

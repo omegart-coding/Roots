@@ -5,7 +5,7 @@ const defspeed = 200
 var speed = 0
 const jumpforce = -600
 const dashforce = 600
-
+const grabspeed = 800
 
 # movement boolians
 var canjump:bool = false
@@ -13,9 +13,18 @@ var jumpbuffer: bool = false
 var isdashing:bool = false
 var sidemoving:bool = false
 var candash:bool = false
+var can_grab: bool = false
+
+var closest_grab
 
 var control:bool = true
 var direction:Vector2
+
+const maxstamina = 1000
+var stamina
+
+func _ready() -> void:
+	stamina = maxstamina
 
 func jump():
 	velocity.y = jumpforce
@@ -23,6 +32,7 @@ func jump():
 
 func dash(dashtime):
 	var dashvel = Vector2(0,0)
+	stamina -= 5
 	candash = false
 	isdashing = true
 	if sidemoving:
@@ -31,18 +41,29 @@ func dash(dashtime):
 		dashvel.y = -dashforce
 	elif Input.is_action_pressed("DIR_DOWN"):
 		dashvel.y = dashforce
-	
-	if (dashvel.x != 0 and dashvel.y != 0):
-		velocity = dashvel * 0.9
-	else:
+
+	if (dashvel.x == 0 or dashvel.y == 0):
 		velocity = dashvel
-	
+	else:
+		velocity = dashvel * 0.9
+		
 	await get_tree().create_timer(dashtime).timeout
 	velocity.x = 0
 	velocity.y = 0
 	isdashing = false
 
+func grab():
+	closest_grab = $grabdetect.checkgrab()
+	if closest_grab != null:
+		can_grab = false
 
+
+func grab_end():
+	var istrue = false
+	for area in $grabcollision.get_overlapping_bodies():
+		if area == closest_grab:
+			istrue = true
+	return istrue
 
 func _process(delta: float) -> void:
 	if is_on_floor():
@@ -50,7 +71,9 @@ func _process(delta: float) -> void:
 			canjump = true
 		if !candash and !isdashing:
 			candash = true
-		
+		if !can_grab:
+			can_grab = true
+
 	
 	if Input.is_action_pressed("DIR_LEFT"):
 		direction = Vector2.LEFT
@@ -61,7 +84,7 @@ func _process(delta: float) -> void:
 	else:
 		sidemoving = false
 	
-	if control:
+	if control and closest_grab == null:
 		if Input.is_action_pressed("DIR_LEFT") or Input.is_action_pressed("DIR_RIGHT"):
 			speed = defspeed
 		else:
@@ -79,12 +102,21 @@ func _process(delta: float) -> void:
 		
 		if Input.is_action_just_pressed("DASH") and candash:
 			dash(0.4)
+		
+		if Input.is_action_just_pressed("SELECT") and can_grab:
+			grab()
+	elif closest_grab != null:
+			
+		velocity = position.direction_to(closest_grab.position) *  grabspeed
+		if grab_end():
+			closest_grab = null
+			velocity *= 0.1
 	
-	if !isdashing:
+	if !isdashing and closest_grab == null:
 		velocity.x = speed * direction.x
 		
 	if !is_on_floor():
-		if !isdashing:
+		if !isdashing and closest_grab == null:
 			velocity += get_gravity() * delta
 	
 	move_and_slide()

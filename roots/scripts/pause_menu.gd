@@ -14,3 +14,6 @@ func _on_play_pressed() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	hide()
 	get_tree().paused = false
+
+func button_focus() -> void:
+	$Container/MainButtons/Play.grab_focus()

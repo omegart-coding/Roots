@@ -7,6 +7,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("PAUSE"):
 		if !$PauseMenu.visible:
 			$PauseMenu.show()
+			$PauseMenu.button_focus()
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			get_tree().paused = true
 		else:
