@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cvahrxoqrukqg"]
+[gd_scene load_steps=11 format=4 uid="uid://cvahrxoqrukqg"]
 
 [ext_resource type="PackedScene" uid="uid://b06lj6f0wstpg" path="res://elements/player.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://dtnaf1sow335a" path="res://scripts/world.gd" id="1_vx0x3"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://bkgryw1eclrqm" path="res://elements/pause_menu.tscn" id="5_mam6b"]
 [ext_resource type="Script" uid="uid://dvuiv1yyjqqic" path="res://scripts/hud.gd" id="5_ohprx"]
 [ext_resource type="PackedScene" uid="uid://cewvm5gl3srsj" path="res://elements/sprout.tscn" id="7_lshds"]
-[ext_resource type="Script" uid="uid://dxtob0ifq5kns" path="res://scripts/cameralinger.gd" id="8_ioxrv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r0rgg"]
 
@@ -170,14 +169,13 @@ show_percentage = false
 [node name="Sprout" parent="." instance=ExtResource("7_lshds")]
 position = Vector2(481, -462)
 
-[node name="cameralinger" type="Node2D" parent="."]
-script = ExtResource("8_ioxrv")
-
-[node name="Camera2D" type="Camera2D" parent="cameralinger"]
-zoom = Vector2(0.5, 0.5)
+[node name="CameraFocus" type="Node2D" parent="."]
+position = Vector2(481, -462)
 script = ExtResource("2_3xwdg")
 
-[node name="Sprite2D" type="Sprite2D" parent="cameralinger/Camera2D"]
-position = Vector2(0, 1)
-scale = Vector2(0.414063, 0.390625)
+[node name="Sprite2D" type="Sprite2D" parent="CameraFocus"]
+scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_r0rgg")
+
+[node name="Camera2D" type="Camera2D" parent="CameraFocus"]
+zoom = Vector2(0.5, 0.5)
