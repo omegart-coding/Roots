@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
 # movement variables
-const defspeed = 200
+const defspeed = 400
 var speed = 0
 const jumpforce = -600
-const dashforce = 600
-const grabspeed = 800
+const dashforce = 800
+const grabspeed = 1600
 
 # movement boolians
 var canjump:bool = false
@@ -14,6 +14,7 @@ var isdashing:bool = false
 var sidemoving:bool = false
 var candash:bool = false
 var can_grab: bool = false
+var grabbing:bool = false
 
 var closest_grab
 
@@ -53,9 +54,9 @@ func dash(dashtime):
 	isdashing = false
 
 func grab():
-	closest_grab = $grabdetect.checkgrab()
 	if closest_grab != null:
 		can_grab = false
+		grabbing = true
 
 
 func grab_end():
@@ -74,6 +75,7 @@ func _process(delta: float) -> void:
 		if !can_grab:
 			can_grab = true
 
+	closest_grab = $grabdetect.checkgrab()
 	
 	if Input.is_action_pressed("DIR_LEFT"):
 		direction = Vector2.LEFT
@@ -84,7 +86,7 @@ func _process(delta: float) -> void:
 	else:
 		sidemoving = false
 	
-	if control and closest_grab == null:
+	if control and !grabbing:
 		if Input.is_action_pressed("DIR_LEFT") or Input.is_action_pressed("DIR_RIGHT"):
 			speed = defspeed
 		else:
@@ -105,18 +107,19 @@ func _process(delta: float) -> void:
 		
 		if Input.is_action_just_pressed("SELECT") and can_grab:
 			grab()
-	elif closest_grab != null:
+	elif grabbing:
 			
 		velocity = position.direction_to(closest_grab.position) *  grabspeed
 		if grab_end():
 			closest_grab = null
+			grabbing = false
 			velocity *= 0.1
 	
-	if !isdashing and closest_grab == null:
+	if !isdashing and !grabbing:
 		velocity.x = speed * direction.x
 		
 	if !is_on_floor():
-		if !isdashing and closest_grab == null:
+		if !isdashing and !grabbing:
 			velocity += get_gravity() * delta
 	
 	move_and_slide()

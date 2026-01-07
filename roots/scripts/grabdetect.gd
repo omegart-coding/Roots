@@ -6,9 +6,19 @@ func checkgrab():
 	var grabable = []
 	for area in get_overlapping_bodies():
 		if area.is_in_group("grabable"):
-			grabable.append(area)
+			var dir_to_player
+			if get_parent().position.direction_to(area.position).x > 0:
+				dir_to_player = 1
+			elif get_parent().position.direction_to(area.position).x < 0:
+				dir_to_player = -1
+			else:
+				dir_to_player = 0
+			if dir_to_player == get_parent().direction.x:
+				grabable.append(area)
 	
 	var closest = find_closest(grabable)
+	if closest != null:
+		closest.active = true
 	return closest
 	
 func find_closest(list):
