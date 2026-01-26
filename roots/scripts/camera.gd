@@ -4,7 +4,7 @@ var player: Node2D
 const max_distance = Vector2(250, 50)
 
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player")
+	player = get_node('../player')
 
 
 func _process(delta: float) -> void:

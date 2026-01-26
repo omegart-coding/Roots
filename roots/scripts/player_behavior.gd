@@ -17,6 +17,7 @@ var can_grab: bool = false
 var grabbing:bool = false
 
 var closest_grab
+var respawn_pos:Vector2
 
 var control:bool = true
 var direction:Vector2
@@ -26,6 +27,7 @@ var stamina
 
 func _ready() -> void:
 	stamina = maxstamina
+	respawn_pos = position
 
 func jump():
 	velocity.y = jumpforce
@@ -57,7 +59,9 @@ func grab():
 	if closest_grab != null:
 		can_grab = false
 		grabbing = true
-
+		var vine = load("res://elements/vine.tscn").instantiate()
+		vine.setend(closest_grab)
+		add_child(vine)
 
 func grab_end():
 	var istrue = false
@@ -65,6 +69,12 @@ func grab_end():
 		if area == closest_grab:
 			istrue = true
 	return istrue
+
+func set_respawn(pos):
+	respawn_pos = pos
+
+func respawn():
+	position = respawn_pos
 
 func _process(delta: float) -> void:
 	if is_on_floor():

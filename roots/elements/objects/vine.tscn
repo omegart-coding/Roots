@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://didjyi1ffqoeg"]
+
+[ext_resource type="Script" uid="uid://b6wqwwtgnc44e" path="res://scripts/vine.gd" id="1_0nbdb"]
+
+[node name="Vine" type="Line2D"]
+default_color = Color(0, 0.8428, 4.23551e-06, 1)
+script = ExtResource("1_0nbdb")
